@@ -1,4 +1,4 @@
-<div class="user-dashboard" id="user-dashboard-root">
+<div class="user-dashboard" id="user-dashboard-root" [class.light-theme]="!isDarkMode" [style.zoom]="zoomLevel">
     <!-- DEBUG: User Dashboard Loaded -->
     <aside class="sidebar">
         <div class="sidebar-header">
@@ -6,22 +6,45 @@
         </div>
         <nav class="sidebar-nav">
             <a href="#" class="active"><i class="icon-dashboard"></i> Overview</a>
-            <a href="#"><i class="icon-projects"></i> My Projects</a>
             <a href="#"><i class="icon-activity"></i> Activity</a>
-            <a href="#"><i class="icon-settings"></i> Settings</a>
+            <a href="javascript:void(0)" (click)="toggleSettings($event)"><i class="icon-settings"></i> Settings</a>
         </nav>
     </aside>
 
     <main class="dashboard-content">
         <header class="content-header">
-            <h1>Welcome back, Researcher</h1>
-            <div class="user-profile">
-                <span class="avatar">JS</span>
-                <button class="btn btn-logout" (click)="logout()">Logout</button>
+            <h1>Welcome back, {{ userName }}</h1>
+            <div class="profile-container">
+                <div class="profile-trigger" (click)="toggleProfileMenu($event)">
+                    <span class="user-name-short">{{ userName }}</span>
+                    <div class="profile-avatar">{{ getInitials() }}</div>
+                </div>
+
+                <!-- Dropdown Menu -->
+                @if (isProfileMenuOpen) {
+                <div class="profile-dropdown fade-in">
+                    <div class="dropdown-header">
+                        <div class="avatar-large">{{ getInitials() }}</div>
+                        <div class="user-info">
+                            <span class="full-name">{{ userName }}</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <ul class="dropdown-items">
+                        <li><a href="javascript:void(0)"><i class="icon-user"></i> My Profile</a></li>
+                        <li><a href="javascript:void(0)" (click)="toggleSettings($event)"><i class="icon-settings"></i>
+                                Settings</a></li>
+                        <li class="logout-item" (click)="logout()">
+                            <a><i class="icon-logout"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                }
             </div>
         </header>
 
-        <div class="stats-grid">
+        <div class="stats-grid" (click)="closeProfileMenu()">
             <div class="stat-card">
                 <h3>Total pc</h3>
                 <p class="value">1,284</p>
@@ -37,6 +60,35 @@
 
         <!-- Optional: Keep recent activity title or remove if unwanted -->
     </main>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" *ngIf="isSettingsOpen" (click)="toggleSettings()">
+        <div class="modal-container settings-modal" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Dashboard Settings</h2>
+                <button class="modal-close" (click)="toggleSettings()">&times;</button>
+            </div>
+
+            <div class="modal-content">
+                <div class="setting-group">
+                    <label>Appearance</label>
+                    <div class="theme-toggle">
+                        <button [class.active]="isDarkMode" (click)="toggleTheme()">Dark</button>
+                        <button [class.active]="!isDarkMode" (click)="toggleTheme()">Light</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>Zoom Level ({{ zoomLevel * 100 }}%)</label>
+                    <div class="zoom-controls">
+                        <button (click)="updateZoom(-0.1)" [disabled]="zoomLevel <= 0.5">-</button>
+                        <button (click)="resetZoom()">Reset</button>
+                        <button (click)="updateZoom(0.1)" [disabled]="zoomLevel >= 2.0">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Table Popup Modal -->
     <div class="modal-overlay" *ngIf="isTablePopupOpen" (click)="toggleTablePopup()">
