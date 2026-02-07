@@ -23,26 +23,53 @@ export class TableComponent implements OnInit {
     private http = inject(HttpClient);
 
     logs: Log[] = [];
+    summaryList: string[] = [];
     searchQuery: string = '';
+    selectedDeviceId: string | null = null;
+    isDetailView: boolean = false;
 
     ngOnInit(): void {
         if (isPlatformBrowser(this.platformId)) {
-            this.fetchLogs();
+            this.fetchUniquePCs();
+        }
+    }
+
+    fetchUniquePCs(): void {
+        if (this.http) {
+            this.http.get<string[]>('http://localhost:3005/api/unique-pcs')
+                .subscribe({
+                    next: (data) => {
+                        this.summaryList = data;
+                        console.log('Unique PCs fetched successfully');
+                    },
+                    error: (err) => console.error('Error fetching unique PCs:', err)
+                });
         }
     }
 
     fetchLogs(): void {
-        if (this.http) {
-            this.http.get<Log[]>('http://localhost:3000/api/logs')
+        if (this.http && this.selectedDeviceId) {
+            this.http.get<Log[]>(`http://localhost:3005/api/logs?device_id=${this.selectedDeviceId}`)
                 .subscribe({
                     next: (data) => {
                         this.logs = data;
                         console.log('Logs fetched successfully');
                     },
-                    error: (err) => {
-                        console.error('Error fetching logs:', err);
-                    }
+                    error: (err) => console.error('Error fetching logs:', err)
                 });
         }
+    }
+
+    selectPC(deviceId: string): void {
+        this.selectedDeviceId = deviceId;
+        this.isDetailView = true;
+        this.fetchLogs();
+    }
+
+    clearPCFilter(): void {
+        this.selectedDeviceId = null;
+        this.isDetailView = false;
+        this.logs = [];
+        this.fetchUniquePCs();
     }
 }

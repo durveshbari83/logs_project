@@ -27,15 +27,24 @@
                 <p class="value">1,284</p>
                 <span class="trend up">+12% this week</span>
             </div>
-            <div class="stat-card">
+            <div class="stat-card active-pc" (click)="toggleTablePopup()">
                 <h3>Active pc</h3>
                 <p class="value">42</p>
                 <span class="trend">Steady</span>
+                <div class="card-indicator"></div>
             </div>
         </div>
 
-        <section class="recent-activity">
-            <app-table></app-table>
-        </section>
+        <!-- Optional: Keep recent activity title or remove if unwanted -->
     </main>
+
+    <!-- Table Popup Modal -->
+    <div class="modal-overlay" *ngIf="isTablePopupOpen" (click)="toggleTablePopup()">
+        <div class="modal-container" (click)="$event.stopPropagation()">
+            <button class="modal-close" (click)="toggleTablePopup()">&times;</button>
+            <div class="modal-content">
+                <app-table></app-table>
+            </div>
+        </div>
+    </div>
 </div>

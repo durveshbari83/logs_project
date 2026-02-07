@@ -11,7 +11,13 @@ import { TableComponent } from '../../sections/table/table.component';
     styleUrl: './user.component.scss'
 })
 export class UserComponent {
+    isTablePopupOpen: boolean = false;
+
     constructor(private router: Router) { }
+
+    toggleTablePopup(): void {
+        this.isTablePopupOpen = !this.isTablePopupOpen;
+    }
 
     logout(): void {
         this.router.navigate(['/']);

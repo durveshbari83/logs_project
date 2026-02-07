@@ -1,10 +1,20 @@
 <div class="content-card">
     <div class="table-header-section">
-        <h1>Application Event Log Table</h1>
-        <div class="search-container">
-            <input type="text" placeholder="Search..." [(ngModel)]="searchQuery">
+        <h1 class="fade-in">
+            @if (isDetailView) {
+            <button class="btn-back" (click)="clearPCFilter()">← Back</button>
+            Activity for: {{ selectedDeviceId }}
+            } @else {
+            Select a PC to View Logs
+            }
+        </h1>
+
+        @if (isDetailView) {
+        <div class="search-container fade-in">
+            <input type="text" placeholder="Search activity..." [(ngModel)]="searchQuery">
             <span class="search-icon">🔍</span>
         </div>
+        }
     </div>
 
     <div class="table-wrapper">
@@ -12,21 +22,40 @@
             <thead>
                 <tr>
                     <th>Sr No</th>
-                    <th>PC</th>
+                    @if (!isDetailView) {
+                    <th>PC ID</th>
+                    } @else {
                     <th class="sortable">App Name <span>▾</span></th>
                     <th class="sortable">Activity on PC <span>▾</span></th>
                     <th class="sortable">Timestamp <span>▾</span></th>
+                    }
                 </tr>
             </thead>
             <tbody>
-                @for (log of logs; track log.id; let i = $index) {
-                <tr>
+                @if (!isDetailView) {
+                <!-- Summary View: List of Unique PCs -->
+                @for (pcId of summaryList; track pcId; let i = $index) {
+                <tr class="slide-in">
                     <td>{{ i + 1 }}</td>
-                    <td class="pc-cell">{{ log.device_id }}</td>
+                    <td class="pc-cell">
+                        <button class="pc-link" (click)="selectPC(pcId)">
+                            <span class="pc-icon">💻</span> {{ pcId }}
+                        </button>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="2" class="no-data-cell">No PCs detected in logs.</td>
+                </tr>
+                }
+                } @else {
+                <!-- Detail View: Specific PC Logs -->
+                @for (log of logs; track log.id; let i = $index) {
+                <tr class="slide-in">
+                    <td>{{ i + 1 }}</td>
                     <td class="app-name-cell">{{ log.app_name }}</td>
                     <td>
-                        <span class="status-badge"
-                            [class.active-status]="log.event_type.includes('app') || log.event_type.includes('App')">
+                        <span class="status-badge active-status">
                             {{ log.event_type }}
                         </span>
                     </td>
@@ -34,19 +63,22 @@
                 </tr>
                 } @empty {
                 <tr>
-                    <td colspan="5" class="no-data-cell">No event logs available.</td>
+                    <td colspan="4" class="no-data-cell">No activity logs found for this PC.</td>
                 </tr>
+                }
                 }
             </tbody>
         </table>
     </div>
 
-    <!-- Pagination Footer -->
-    <footer class="table-footer">
+    <!-- Pagination Footer - Only for Detailed View -->
+    @if (isDetailView && logs.length > 0) {
+    <footer class="table-footer fade-in">
         <div class="pagination">
             <button class="page-link">Previous</button>
             <button class="page-num active">1</button>
             <button class="page-link">Next</button>
         </div>
     </footer>
+    }
 </div>

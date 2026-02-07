@@ -133,6 +133,117 @@
             color: #10b981;
         }
     }
+
+    &.active-pc {
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        background: rgba(59, 130, 246, 0.05);
+
+        &:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+
+            .card-indicator {
+                width: 100%;
+            }
+        }
+
+        .card-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 0;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+    }
+}
+
+/* Modal Overlay Design */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-container {
+    background: white;
+    width: 95%;
+    max-width: 1200px;
+    height: 85vh;
+    border-radius: 24px;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    border: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #475569;
+    transition: all 0.2s;
+    z-index: 1001;
+
+    &:hover {
+        background: #e2e8f0;
+        color: #ef4444;
+        transform: rotate(90deg);
+    }
+}
+
+.modal-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .progress-bar {
