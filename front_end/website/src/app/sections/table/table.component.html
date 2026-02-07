@@ -26,6 +26,7 @@
                     <th>PC ID</th>
                     } @else {
                     <th class="sortable">App Name <span>▾</span></th>
+                    <th class="sortable">Device ID <span>▾</span></th>
                     <th class="sortable">Activity on PC <span>▾</span></th>
                     <th class="sortable">Timestamp <span>▾</span></th>
                     }
@@ -54,6 +55,7 @@
                 <tr class="slide-in">
                     <td>{{ i + 1 }}</td>
                     <td class="app-name-cell">{{ log.app_name }}</td>
+                    <td class="device-id-cell">{{ log.device_id }}</td>
                     <td>
                         <span class="status-badge active-status">
                             {{ log.event_type }}
@@ -63,7 +65,7 @@
                 </tr>
                 } @empty {
                 <tr>
-                    <td colspan="4" class="no-data-cell">No activity logs found for this PC.</td>
+                    <td colspan="5" class="no-data-cell">No activity logs found for this PC.</td>
                 </tr>
                 }
                 }

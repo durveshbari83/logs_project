@@ -36,11 +36,11 @@ export class TableComponent implements OnInit {
 
     fetchUniquePCs(): void {
         if (this.http) {
-            this.http.get<string[]>('http://localhost:3005/api/unique-pcs')
+            this.http.get<string[]>('http://localhost:3000/api/unique-pcs')
                 .subscribe({
                     next: (data) => {
                         this.summaryList = data;
-                        console.log('Unique PCs fetched successfully');
+                        console.log('Unique PCs fetched successfully:', data);
                     },
                     error: (err) => console.error('Error fetching unique PCs:', err)
                 });
@@ -49,11 +49,11 @@ export class TableComponent implements OnInit {
 
     fetchLogs(): void {
         if (this.http && this.selectedDeviceId) {
-            this.http.get<Log[]>(`http://localhost:3005/api/logs?device_id=${this.selectedDeviceId}`)
+            this.http.get<Log[]>(`http://localhost:3000/api/logs?device_id=${this.selectedDeviceId}`)
                 .subscribe({
                     next: (data) => {
                         this.logs = data;
-                        console.log('Logs fetched successfully');
+                        console.log('Logs fetched successfully:', data);
                     },
                     error: (err) => console.error('Error fetching logs:', err)
                 });

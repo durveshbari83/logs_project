@@ -74,11 +74,10 @@ process.on('unhandledRejection', (reason) => {
 DB.query('SELECT 1', (err) => {
     if (err) {
         console.error('Database connectivity check failed:', err);
-        console.error('Server will not start until database is reachable.');
-        process.exit(1);
+        console.error('Continuing anyway - will retry on first request');
     }
 
-    const PORT = process.env.PORT || 3005;
+    const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
         console.log(`Backend running on http://127.0.0.1:${PORT}`);
     });
