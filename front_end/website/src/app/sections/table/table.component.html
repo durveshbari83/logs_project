@@ -1,0 +1,52 @@
+<div class="content-card">
+    <div class="table-header-section">
+        <h1>Application Event Log Table</h1>
+        <div class="search-container">
+            <input type="text" placeholder="Search..." [(ngModel)]="searchQuery">
+            <span class="search-icon">🔍</span>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="event-table">
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>PC</th>
+                    <th class="sortable">App Name <span>▾</span></th>
+                    <th class="sortable">Activity on PC <span>▾</span></th>
+                    <th class="sortable">Timestamp <span>▾</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (log of logs; track log.id; let i = $index) {
+                <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td class="pc-cell">{{ log.device_id }}</td>
+                    <td class="app-name-cell">{{ log.app_name }}</td>
+                    <td>
+                        <span class="status-badge"
+                            [class.active-status]="log.event_type.includes('app') || log.event_type.includes('App')">
+                            {{ log.event_type }}
+                        </span>
+                    </td>
+                    <td class="timestamp-cell">{{ log.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="5" class="no-data-cell">No event logs available.</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Footer -->
+    <footer class="table-footer">
+        <div class="pagination">
+            <button class="page-link">Previous</button>
+            <button class="page-num active">1</button>
+            <button class="page-link">Next</button>
+        </div>
+    </footer>
+</div>

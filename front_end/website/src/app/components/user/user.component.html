@@ -1,4 +1,5 @@
-<div class="user-dashboard">
+<div class="user-dashboard" id="user-dashboard-root">
+    <!-- DEBUG: User Dashboard Loaded -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand">LOGS<span>USER</span></div>
@@ -33,14 +34,8 @@
             </div>
         </div>
 
-        <section class="recent-activity section-card">
-            <h2>Recent Logs Activity</h2>
-            <div class="activity-table">
-                <!-- Placeholder for table -->
-                <div class="placeholder-row">Log #8293 processed successfully - 2m ago</div>
-                <div class="placeholder-row">Analysis started on Project Alpha - 1h ago</div>
-                <div class="placeholder-row">System alert: Storage threshold reached - 3h ago</div>
-            </div>
+        <section class="recent-activity">
+            <app-table></app-table>
         </section>
     </main>
 </div>
