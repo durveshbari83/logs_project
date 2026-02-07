@@ -39,6 +39,24 @@ app.get("/api/logs",(req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log("Backend running 3000");
+app.get('/', (req, res) => res.send('OK'));
+
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+});
+process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled Rejection:', reason);
+});
+
+DB.query('SELECT 1', (err) => {
+    if (err) {
+        console.error('Database connectivity check failed:', err);
+        console.error('Server will not start until database is reachable.');
+        process.exit(1);
+    }
+
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Backend running on http://127.0.0.1:${PORT}`);
+    });
 });
