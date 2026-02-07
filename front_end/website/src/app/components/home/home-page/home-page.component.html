@@ -8,8 +8,6 @@
             <div class="logo-centered">LOGS<span>PROJECT</span></div>
 
             <div class="header-actions">
-                <button class="icon-btn" title="Home"><i class="home-icon"></i></button>
-                <button class="icon-btn" title="Profile"><i class="profile-icon"></i></button>
             </div>
         </div>
     </header>
@@ -27,5 +25,28 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-overlay" *ngIf="showLoginModal" (click)="closeModal()">
+        <div class="login-modal" (click)="$event.stopPropagation()">
+            <button class="close-btn" (click)="closeModal()">&times;</button>
+            <h2>Secure Access</h2>
+            <p>Enter your credentials to access the researcher dashboard.</p>
+
+            <form (submit)="submitLogin(); $event.preventDefault()">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" [(ngModel)]="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" [(ngModel)]="loginPassword" placeholder="Enter your password"
+                        required>
+                </div>
+                <div class="error-msg" *ngIf="loginError">{{ loginError }}</div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+        </div>
     </div>
 </div>

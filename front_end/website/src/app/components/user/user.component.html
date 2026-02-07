@@ -1,0 +1,53 @@
+<div class="user-dashboard">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">LOGS<span>USER</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active"><i class="icon-dashboard"></i> Overview</a>
+            <a href="#"><i class="icon-projects"></i> My Projects</a>
+            <a href="#"><i class="icon-activity"></i> Activity</a>
+            <a href="#"><i class="icon-settings"></i> Settings</a>
+        </nav>
+    </aside>
+
+    <main class="dashboard-content">
+        <header class="content-header">
+            <h1>Welcome back, Researcher</h1>
+            <div class="user-profile">
+                <span class="avatar">JS</span>
+                <button class="btn btn-logout" (click)="logout()">Logout</button>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Logs</h3>
+                <p class="value">1,284</p>
+                <span class="trend up">+12% this week</span>
+            </div>
+            <div class="stat-card">
+                <h3>Active Sessions</h3>
+                <p class="value">42</p>
+                <span class="trend">Steady</span>
+            </div>
+            <div class="stat-card">
+                <h3>Storage Used</h3>
+                <p class="value">84%</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 84%"></div>
+                </div>
+            </div>
+        </div>
+
+        <section class="recent-activity section-card">
+            <h2>Recent Logs Activity</h2>
+            <div class="activity-table">
+                <!-- Placeholder for table -->
+                <div class="placeholder-row">Log #8293 processed successfully - 2m ago</div>
+                <div class="placeholder-row">Analysis started on Project Alpha - 1h ago</div>
+                <div class="placeholder-row">System alert: Storage threshold reached - 3h ago</div>
+            </div>
+        </section>
+    </main>
+</div>
