@@ -59,9 +59,8 @@ const EXECUTABLE_MAPPING = {
 };
 
 const failedQueue = [];
-let previousApps = new Set(); // Track previously detected apps for real-time change detection
+let previousApps = new Set(); 
 
-// Function to get local system timestamp
 function getLocalTimestamp() {
     const now = new Date();
     const year = now.getFullYear();
@@ -74,18 +73,15 @@ function getLocalTimestamp() {
 }
 
 function getAppName(processName, windowTitle) {
-    // First, check if we have a mapping for this executable
     const lowerProcessName = processName.toLowerCase();
     if (EXECUTABLE_MAPPING[lowerProcessName]) {
         return EXECUTABLE_MAPPING[lowerProcessName];
     }
 
-    // Try to extract app name from window title
     if (windowTitle && windowTitle.length > 0) {
-        // Remove common endings
         let appName = windowTitle
-            .split(' - ')[0] // Remove " - Something" suffix
-            .split(' | ')[0] // Remove " | Something" suffix
+            .split(' - ')[0] 
+            .split(' | ')[0] 
             .trim();
         
         if (appName.length > 2 && appName.length < 100) {
@@ -93,7 +89,6 @@ function getAppName(processName, windowTitle) {
         }
     }
 
-    // Use process name without .exe as fallback
     if (processName) {
         return processName.replace('.exe', '');
     }
@@ -170,14 +165,12 @@ function getRunningApps() {
 
             if (sessionName && /services?/i.test(sessionName)) continue;
 
-            // Get user-friendly app name
             const appName = getAppName(processName, windowTitle);
             if (appName) {
                 currentApps.add(appName);
             }
         }
 
-        // Detect newly opened apps
         const newApps = [];
         currentApps.forEach(app => {
             if (!previousApps.has(app)) {
@@ -186,7 +179,6 @@ function getRunningApps() {
             }
         });
 
-        // Detect closed apps
         previousApps.forEach(app => {
             if (!currentApps.has(app)) {
                 console.log(`App closed: ${app}`);
@@ -197,18 +189,15 @@ function getRunningApps() {
             console.log(`New app(s) opened:`, newApps.join(', '));
         }
 
-        // Update previousApps for next cycle
         previousApps = currentApps;
 
         console.log(`Currently running: ${currentApps.size} app(s)`);
     });
 }
 
-// Check running apps every 10 seconds for near real-time logging
 setInterval(getRunningApps, 10000);
 getRunningApps();
 
-// Flush failed logs every 5 seconds
 setInterval(flushQueue, 5000);
 
 console.log("Activity Logger running on", DEV_ID);
