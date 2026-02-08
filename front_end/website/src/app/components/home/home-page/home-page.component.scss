@@ -70,7 +70,6 @@
     position: relative;
     overflow: hidden;
 
-    // Background grain texture
     &::before {
         content: '';
         position: absolute;
@@ -234,7 +233,6 @@ p {
     }
 }
 
-// Fade animations
 .fade-in-up {
     opacity: 0;
     transform: translateY(60px);
@@ -256,7 +254,6 @@ p {
     }
 }
 
-// Login Modal Styles
 .login-overlay {
     position: fixed;
     top: 0;

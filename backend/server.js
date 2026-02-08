@@ -1,42 +1,43 @@
 const express = require("express");
 const cors = require("cors");
 const DB = require("./database");
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.post("/api/logs", (req, res) => {
-    const {
-        device_id, app_name, event_type, timestamp
-    } = req.body;
+    const { device_id, app_name, event_type, timestamp } = req.body;
 
     if (!device_id || !app_name || !event_type) {
         return res.status(400).send("Missing required fields");
     }
 
-    DB.query(
-        "INSERT INTO logs (device_id, app_name, event_type, timestamp) VALUES (?,?,?,?)",
-        [device_id, app_name, event_type, timestamp],
-        (err) => {
-            if (err) {
-                console.error("Insert error:", err);
-                return res.status(500).send("Database error");
+    const sql = "INSERT INTO logs (`device_id`,`app_name`,`event_type`,`timestamp`) VALUES (?,?,?,?)";
+    DB.query(sql, [device_id, app_name, event_type, timestamp], (err) => {
+        if (err) {
+            const msg = err && err.message ? err.message : String(err);
+            console.error("Insert error:", err);
+            // also write to error log for quieter inspection
+            try {
+                fs.appendFileSync('server_insert_errors.log', new Date().toISOString() + ' ' + msg + '\n');
+            } catch (e) {
+                console.error('Failed to write error log:', e);
             }
-            res.send("Log saved");
+            return res.status(500).send("Database error: " + msg);
         }
-    );
+        res.send("Log saved");
+    });
 });
 
 app.get("/api/unique-pcs", (req, res) => {
-    console.log("Fetching unique PCs list...");
     DB.query("SELECT DISTINCT device_id FROM logs", (err, results) => {
         if (err) {
             console.error("Select unique PCs error:", err);
             return res.status(500).send("Database error");
         }
         const pcList = results.map(r => r.device_id);
-        console.log("Returning unique PCs:", pcList);
         res.json(pcList);
     });
 });
@@ -44,7 +45,7 @@ app.get("/api/unique-pcs", (req, res) => {
 app.get("/api/logs", (req, res) => {
     const { device_id } = req.query;
     let query = "SELECT * FROM logs";
-    let params = [];
+    const params = [];
 
     if (device_id) {
         query += " WHERE device_id = ?";
@@ -71,6 +72,7 @@ process.on('unhandledRejection', (reason) => {
     console.error('Unhandled Rejection:', reason);
 });
 
+
 DB.query('SELECT 1', (err) => {
     if (err) {
         console.error('Database connectivity check failed:', err);
@@ -78,7 +80,7 @@ DB.query('SELECT 1', (err) => {
     }
 
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`Backend running on http://127.0.0.1:${PORT}`);
+    app.listen(PORT, '172.21.14.253', () => {
+        console.log(`Backend running on http://172.21.14.253:${PORT}`);
     });
 });

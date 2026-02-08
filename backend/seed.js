@@ -1,7 +1,6 @@
 const util = require('util');
 const DB = require("./database");
 
-// Convert DB.query to use promises
 const query = util.promisify(DB.query).bind(DB);
 
 const sampleLogs = [

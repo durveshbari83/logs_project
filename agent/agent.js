@@ -3,7 +3,7 @@ const axios = require("axios");
 const { exec } = require("child_process");
 
 const DEV_ID = os.hostname();
-const BACKEND_URL = "http://127.0.0.1:3000/api/logs";
+const BACKEND_URL = "http://172.21.14.253:3000/api/logs";
 
 const IGNORE_PROCESSES = new Set([
     "system", "registry", "smss.exe", "csrss.exe", "wininit.exe", "services.exe",

@@ -1,5 +1,5 @@
 <div class="user-dashboard" id="user-dashboard-root" [class.light-theme]="!isDarkMode" [style.zoom]="zoomLevel">
-    <!-- DEBUG: User Dashboard Loaded -->
+    
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="brand">LOGS<span>USER</span></div>
@@ -20,7 +20,7 @@
                     <div class="profile-avatar">{{ getInitials() }}</div>
                 </div>
 
-                <!-- Dropdown Menu -->
+                
                 @if (isProfileMenuOpen) {
                 <div class="profile-dropdown fade-in">
                     <div class="dropdown-header">
@@ -58,10 +58,10 @@
             </div>
         </div>
 
-        <!-- Optional: Keep recent activity title or remove if unwanted -->
+        
     </main>
 
-    <!-- Settings Modal -->
+    
     <div class="modal-overlay" *ngIf="isSettingsOpen" (click)="toggleSettings()">
         <div class="modal-container settings-modal" (click)="$event.stopPropagation()">
             <div class="modal-header">
@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <!-- Table Popup Modal -->
+    
     <div class="modal-overlay" *ngIf="isTablePopupOpen" (click)="toggleTablePopup()">
         <div class="modal-container" (click)="$event.stopPropagation()">
             <button class="modal-close" (click)="toggleTablePopup()">&times;</button>

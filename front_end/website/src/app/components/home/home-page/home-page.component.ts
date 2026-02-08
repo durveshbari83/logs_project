@@ -27,7 +27,6 @@ export class HomePageComponent {
         const email = this.loginEmail.trim().toLowerCase();
         const password = this.loginPassword.trim();
 
-        // Allowing both 'gamil' and 'gmail' to be safe for the user
         const isValidEmail = email === 'admin200@gamil.com' || email === 'admin200@gmail.com';
         const isValidPassword = password === 'admin@22';
 
